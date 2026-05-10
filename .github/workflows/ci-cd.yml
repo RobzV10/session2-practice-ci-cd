@@ -56,7 +56,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          git clean -f
+          mkdir -p /tmp/model
+          mv linear_model.txt /tmp/model/linear_model.txt
+
           git fetch origin release || true
           if git show-ref --verify --quiet refs/remotes/origin/release; then
             git checkout release
@@ -66,7 +68,7 @@ jobs:
             git rm -rf .
           fi
 
-          git checkout origin/main -- linear_model.txt
+          mv /tmp/model/linear_model.txt .
           git add linear_model.txt
 
           if git diff --cached --quiet; then
